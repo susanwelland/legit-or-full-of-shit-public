@@ -18,11 +18,12 @@ const store = {
   del(k) { try { localStorage.removeItem(k); } catch { /* nothing kept */ } },
 };
 export function trackerShown() {
+  if (typeof location !== "undefined") {
+    const q = new URLSearchParams(location.search).get("tracker");
+    if (q === "1") store.set(FLAG, "1");
+    if (q === "0") store.del(FLAG);
+  }
   if (import.meta.env.VITE_TRACKER === "on") return true;
-  if (typeof location === "undefined") return false;
-  const q = new URLSearchParams(location.search).get("tracker");
-  if (q === "1") store.set(FLAG, "1");
-  if (q === "0") store.del(FLAG);
   return store.get(FLAG, "") === "1";
 }
 const mine = () => { try { return JSON.parse(store.get(MINE, "{}")) || {}; } catch { return {}; } };
@@ -113,7 +114,8 @@ export default function Tracker({ person, issue }) {
       )}
       {step === "active" && status && <Receipt r={status.receipt} />}
 
-      <DemoTrigger person={person} issue={issue} />
+      {/* Owner's demo trigger: only in a browser opened once with ?tracker=1, never for visitors. */}
+      {store.get(FLAG, "") === "1" && <DemoTrigger person={person} issue={issue} />}
     </section>
   );
 }
