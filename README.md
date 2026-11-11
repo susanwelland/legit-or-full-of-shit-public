@@ -107,7 +107,7 @@ ends with a receipt showing PayPal's order and capture ids. All run in the PayPa
 | Feed the Eagle: a tip to keep the research going | $3, $5, $10 or $25 | https://legitorfullofshit.com/feed/ |
 | "Wear your call" T-shirt: the person's name and your call printed on the back (sandbox orders only ever make an unpaid Printful draft; nothing prints or ships) | $24.00 | Any person's page, after you click Legit or Full of shit: pick a size, "Order this shirt" |
 | "I Made the Call" printable certificate | $1.00 | https://legitorfullofshit.com/utah/shop/ (make a call on any Utah record first) |
-| Donkey Tracker (pilot): email alerts when one candidate's record changes | $5.00 | Person pages, when switched on (see "Donkey Tracker" below) |
+| Donkey Tracker (pilot): email alerts when one candidate's record changes | $5.00 | Person pages. Switched on in the live site as a sandbox pilot (see "Donkey Tracker" below) |
 
 ### Sponsor and partner tools used
 
@@ -328,8 +328,8 @@ a newer poll, refresh market prices, and propose changes for a person to approve
 Still open:
 
 - Run one real PayPal sandbox purchase of the evidence file, start to finish, on the live site.
-  (The shop is hidden, so it no longer needs its own test. Donkey Tracker gets its own once it is
-  switched on.)
+  (The shop is hidden, so it no longer needs its own test. Donkey Tracker is now switched on and still
+  needs its own end-to-end test: a sandbox purchase, then the confirmation email.)
 - Listen to the KZMU forum audio and confirm the Grand County quotes. The transcript was
   machine-generated; the page already says the audio is the record.
 - Read each quote on its source page once more for punctuation.
@@ -572,8 +572,10 @@ publicly, no tracking period is promised, and alerts are sent by hand. Code: `se
 
 - **Switch on:** set `TRACKER=on` on the API service (Render). Email needs `RESEND_API_KEY` and a
   verified sending domain. `TRACKER_SECRET` signs the links (Render generates it; `IP_SALT` is the
-  fallback). The panel shows on person pages only in a browser opened once with `?tracker=1`
-  (`?tracker=0` hides it again), or in a build with `VITE_TRACKER=on`.
+  fallback). The live site has `TRACKER=on` on the API and `VITE_TRACKER=on` on the static site, so
+  the panel shows on every person page. Without `VITE_TRACKER=on` it shows only in a browser
+  opened once with `?tracker=1` (`?tracker=0` hides it again). Not yet tested end to end: the sandbox
+  purchase and the confirmation email (sending-domain setup not verified).
 - **Flow:** email + consent box ("Email me when this candidate's record changes.") make a pending
   row. No consent, no row. The server prices the order at $5. The row turns active only after
   the PayPal capture is verified, and the confirmation email goes out once. It has a confirm
