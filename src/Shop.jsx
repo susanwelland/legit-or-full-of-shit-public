@@ -263,7 +263,7 @@ function MerchCard({ m, shop, goRecords }) {
           </>
         ) : (
           <div className="store-buyrow">
-            <span className="store-price">$1 sandbox test price</span>
+            <span className="store-price">${(def.cents / 100).toFixed(def.cents % 100 ? 2 : 0)} sandbox demo price</span>
             {def && def.sizes && (
               <label className="field" htmlFor={`size-${m.id}`}>Size
                 <select id={`size-${m.id}`} value={size} onChange={(e) => { setSize(e.target.value); setOpen(false); }}>
@@ -314,7 +314,7 @@ export default function Shop({ goRecords, calls = 0 }) {
       <CertificateCard calls={calls} goRecords={goRecords} shop={shop} />
 
       <h3 className="store-section">Merch, sandbox demo</h3>
-      <p className="call-note">Every item here is a $1 sandbox test purchase with PayPal test money. These are not retail prices. Nothing prints and nothing ships. The one shirt made to order, the personalized "Wear your call" shirt ($24, sandbox), is on a person page after you make a call.</p>
+      <p className="call-note">Every item here is a sandbox purchase with PayPal test money, at an illustrative demo price. These are not retail offers. Nothing prints and nothing ships. The one shirt made to order, the personalized "Wear your call" shirt ($24, sandbox), is on a person page after you make a call.</p>
       <ul className="store-grid">
         {MERCH.map((m) => <MerchCard key={m.id} m={m} shop={shop} goRecords={goRecords} />)}
       </ul>
