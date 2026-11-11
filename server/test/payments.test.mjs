@@ -216,18 +216,18 @@ test("no email address or payment secret is written to the server log", () => {
   assert.ok(!log.includes("test-secret"));
 });
 
-test("sandbox demo merch: fixed $1 price, sizes checked, never shipped", async () => {
+test("sandbox demo merch: fixed demo price per item, sizes checked, never shipped", async () => {
   const v = visitor(server.base);
   const mug = await pay(v, { merch: "source-mug" });
   assert.equal(mug.cap.data.status, "captured");
-  assert.equal(mug.cap.data.amountCents, 100);
+  assert.equal(mug.cap.data.amountCents, 1600);
   assert.equal(mug.cap.data.kind, "merch");
   const tee = await pay(v, { merch: "record-tee", size: "XL", cents: 1 });
-  assert.equal(tee.cap.data.amountCents, 100);
+  assert.equal(tee.cap.data.amountCents, 2800);
   assert.equal((await v.post("/api/paypal/orders", { merch: "record-tee" })).status, 400);
   assert.equal((await v.post("/api/paypal/orders", { merch: "record-tee", size: "XXXL" })).status, 400);
   assert.equal((await v.post("/api/paypal/orders", { merch: "nope" })).status, 400);
   assert.equal((await v.post("/api/paypal/orders", { merch: "__proto__" })).status, 400);
   const flask = await pay(v, { merch: "insulated-flask" });
-  assert.equal(flask.cap.data.amountCents, 100);
+  assert.equal(flask.cap.data.amountCents, 3200);
 });
