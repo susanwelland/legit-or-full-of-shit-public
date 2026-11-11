@@ -1,4 +1,4 @@
-# Legit or Full of Shit
+# Legit or Full of Shit: Civic Accountability with PayPal
 
 > Public copy of a private development repository, updated Nov 10, 2026 with the code unchanged. Earlier commit history is not included; HACKATHON_CHANGES.md records the dated build log, and AI assistance in the build is disclosed in the Devpost entry.
 
