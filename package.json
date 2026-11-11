@@ -8,7 +8,8 @@
     "preview": "vite preview",
     "preview:single": "vite build --mode single && node scripts-preview.mjs",
     "api": "npm --prefix server run dev",
-    "dev:full": "vite --mode full"
+    "dev:full": "vite --mode full",
+    "test": "npm --prefix server test"
   },
   "keywords": [],
   "author": "",

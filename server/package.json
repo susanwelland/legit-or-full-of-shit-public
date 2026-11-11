@@ -6,7 +6,8 @@
   "scripts": {
     "sync": "node sync-data.mjs",
     "start": "node sync-data.mjs && node index.js",
-    "dev": "node dev.mjs"
+    "dev": "node dev.mjs",
+    "test": "node sync-data.mjs && node --test --test-concurrency=1 test/payments.test.mjs"
   },
   "dependencies": {
     "@electric-sql/pglite": "^0.5.8",

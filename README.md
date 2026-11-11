@@ -109,6 +109,26 @@ ends with a receipt showing PayPal's order and capture ids. All run in the PayPa
 | "I Made the Call" printable certificate | $1.00 | https://legitorfullofshit.com/utah/shop/ (make a call on any Utah record first) |
 | Donkey Tracker (pilot): email alerts when one candidate's record changes | $5.00 | Person pages. Switched on in the live site as a sandbox pilot (see "Donkey Tracker" below) |
 
+### Automated tests
+
+`npm test` runs every PayPal flow end to end against the real API server, a stand-in PayPal sandbox
+and a stand-in email service. It needs no keys, no network and no money (Node 22 or newer):
+
+```
+npm install --prefix server
+npm test
+```
+
+The 10 tests (`server/test/payments.test.mjs`) check that:
+- the server sets every price, whatever the browser sends;
+- something is delivered only after PayPal reports a completed capture for exactly that order and amount;
+- declined, wrong-amount and tampered payments deliver nothing, and a stranger can't capture, buy or read another visitor's file;
+- a lost PayPal reply is checked with PayPal, not guessed, and a repeated approval never captures twice;
+- a paid evidence file comes back after a reload and is never sold twice;
+- tips, the certificate and the T-shirt are priced and gated correctly;
+- Donkey Tracker turns on only after a verified capture, sends one confirmation, alerts only confirmed addresses once per change, and stops after unsubscribe;
+- no email address or secret reaches the server log.
+
 ### Sponsor and partner tools used
 
 - **PayPal:** the JavaScript SDK for buyer approval, plus Orders v2 on the server to create and capture

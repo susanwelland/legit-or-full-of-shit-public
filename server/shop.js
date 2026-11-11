@@ -15,7 +15,9 @@ import { shirt, currency } from "./data/shop.js";
 import { shirtPerson, CALLS } from "./shirt.js";
 import { TRACKER_CENTS } from "./tracker.js";
 
-const SANDBOX = "https://api-m.sandbox.paypal.com";
+// PAYPAL_SANDBOX_BASE points the sandbox client at a stand-in PayPal for the automated tests
+// (server/test/). It never changes the live address.
+const SANDBOX = process.env.PAYPAL_SANDBOX_BASE || "https://api-m.sandbox.paypal.com";
 const LIVE = "https://api-m.paypal.com";
 const dollars = (cents) => (cents / 100).toFixed(2);
 // The amounts Feed the Eagle offers, in cents.
