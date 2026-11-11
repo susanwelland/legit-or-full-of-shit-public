@@ -105,6 +105,7 @@ ends with a receipt showing PayPal's order and capture ids. All run in the PayPa
 | --- | --- | --- |
 | Evidence file: every source on one person and issue, in an AG Grid table | $1.00 | Any person's page, "Have the Eagle build it" |
 | Feed the Eagle: a tip to keep the research going | $3, $5, $10 or $25 | https://legitorfullofshit.com/feed/ |
+| "Wear your call" T-shirt: the person's name and your call printed on the back (sandbox orders only ever make an unpaid Printful draft; nothing prints or ships) | $24.00 | Any person's page, after you click Legit or Full of shit: pick a size, "Order this shirt" |
 | "I Made the Call" printable certificate | $1.00 | https://legitorfullofshit.com/utah/shop/ (make a call on any Utah record first) |
 | Donkey Tracker (pilot): email alerts when one candidate's record changes | $5.00 | Person pages, when switched on (see "Donkey Tracker" below) |
 

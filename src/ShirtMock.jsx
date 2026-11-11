@@ -3,7 +3,7 @@
 // switched on (VITE_SHOP=on) it can be ordered: the server prints the back exactly like this.
 import { useEffect, useState } from "react";
 import { SHOP_ON } from "./route.js";
-import { Checkout } from "./Shop.jsx";
+import { Checkout, Receipt } from "./Shop.jsx";
 import { track } from "./analytics.js";
 import { shirt, currency } from "./data/shop.js";
 import { shirtFront } from "./data/shirtArt.js";
@@ -16,6 +16,7 @@ function BuyShirt({ callKey, call }) {
   const [size, setSize] = useState("");
   const [open, setOpen] = useState(false);
   const [paid, setPaid] = useState(false);
+  const [receipt, setReceipt] = useState(null);
   useEffect(() => {
     if (!API) return;
     fetch(`${API}/api/shop`).then((r) => (r.ok ? r.json() : null)).then((b) => b && setShop(b)).catch(() => {});
@@ -23,6 +24,7 @@ function BuyShirt({ callKey, call }) {
   useEffect(() => { setOpen(false); setPaid(false); }, [callKey, call]);
   if (paid) {
     return (
+      <>
       <p className="paid" role="status">
         {shop.mode === "sandbox"
           ? "Sandbox order confirmed by PayPal. No real money moved and nothing ships from this demo."
@@ -30,6 +32,8 @@ function BuyShirt({ callKey, call }) {
             ? "Mock order recorded. PayPal was not contacted and nothing ships."
             : "Order confirmed. Your shirt is made to order and ships in about a week."}
       </p>
+      <Receipt r={receipt} />
+      </>
     );
   }
   return (
@@ -47,7 +51,7 @@ function BuyShirt({ callKey, call }) {
         </button>
       )}
       {open && size && (
-        <Checkout key={`${callKey}:${call}:${size}`} item={{ shirt: { key: callKey }, size }} shop={shop} onDone={() => setPaid(true)} paidText="" />
+        <Checkout key={`${callKey}:${call}:${size}`} item={{ shirt: { key: callKey }, size }} shop={shop} onDone={(r) => { setReceipt(r); setPaid(true); }} paidText="" />
       )}
       {shop.mode !== "live" && <p className="call-note">Sandbox demo: checkout runs in PayPal's test mode. No real money moves and nothing ships.</p>}
       <p className="call-note">{currency}. Black tee, printed front and back as shown (use Flip). Made to order.</p>
