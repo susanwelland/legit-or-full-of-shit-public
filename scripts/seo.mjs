@@ -62,7 +62,7 @@ const paths = [];
 paths.push(
   page("/", {
     title: "Is your politician legit or full of shit? Check by ZIP | Legit or Full of Shit",
-    description: "Type your ZIP and see what the people on your ballot said next to how they voted, with the bill, the date and the official record. No scores. You make the call.",
+    description: "Type your ZIP and see what your officials said next to how they voted, with the bill, the date and the official record. No scores. You make the call.",
     jsonld: { "@context": "https://schema.org", "@type": "WebSite", name: "Legit or Full of Shit", url: SITE + "/", description: LEDE },
     body: `<h1>Is your politician legit or full of shit?</h1><p>Type your zip. Get the answer in 10 seconds, with the votes to prove it.</p><p>${esc(LEDE)}</p>${NAV}<h2>Open states</h2><ul><li>${link("/utah", "Utah")}</li>${OPEN_STATES.map((st) => `<li>${link(`/${st.slug}`, st.name)}</li>`).join("")}</ul><h2>The first proof state: Utah</h2><ul>${issues
       .map((i) => `<li>${link(`/utah/${i.id}`, i.name)}: ${esc(i.blurb)}</li>`)
@@ -124,12 +124,12 @@ for (const i of issues) {
 
 // The other pages
 const simple = [
-  ["/utah/match", "Who votes like you? Match your views to Utah votes | Legit or Full of Shit", "Answer five yes/no questions, each tied to a real Utah vote, and see how the people on your ballot actually voted. No endorsements.", "<h1>Who votes like you?</h1><p>Five yes/no questions, each tied to one real recorded vote. Then see how the people in your races voted, with the roll call.</p>"],
+  ["/utah/match", "Who votes like you? Match your views to Utah votes | Legit or Full of Shit", "Answer five yes/no questions, each tied to a real Utah vote, and see how the people on your 2026 ballot actually voted. No endorsements.", "<h1>Who votes like you?</h1><p>Five yes/no questions, each tied to one real recorded vote. Then see how the people in your races voted, with the roll call.</p>"],
   ["/utah/top20", "Utah Top 20: what Utah voters care about | Legit or Full of Shit", `Twenty issues Utah voters and Utah news are focused on, as of ${asOf}, with the polls and sources behind each number.`, `<h1>Utah Top 20</h1><ul>${top20.map((t) => `<li><strong>${esc(t.title)}</strong> (${esc(t.stat)}): ${esc(t.line)}</li>`).join("")}</ul>`],
   ["/utah/blog", "Blog | Legit or Full of Shit", "Why this site exists, and the public records requests behind it.", `<h1>Blog</h1>${posts.map((p) => `<article><h2>${esc(p.title)}</h2><p>${esc(p.date)}</p><p>${esc(p.dek)}</p>${p.blocks.filter((b) => b.p).map((b) => `<p>${esc(b.p)}</p>`).join("")}</article>`).join("")}`],
   ["/utah/votes", "Utah roll calls on the lake, data centers and surveillance | Legit or Full of Shit", "How every Utah legislator voted on the Great Salt Lake, data center and license plate reader bills, from the official roll calls.", "<h1>Roll call</h1>"],
   ["/utah/odds", "The Odds: 2026 midterm prediction markets | Legit or Full of Shit", "Prediction-market prices for the 2026 House and Senate and Utah's 1st District, read with care.", "<h1>The Odds</h1>"],
-  ["/utah/action", "Take action: write to Utah officials | Legit or Full of Shit", "Write to the officials on your ballot about what they said and what they did.", "<h1>Take action</h1>"],
+  ["/utah/action", "Take action: write to Utah officials | Legit or Full of Shit", "Write to your officials about what they said and what they did.", "<h1>Take action</h1>"],
   ["/rules", "House rules | Legit or Full of Shit", "How this site works: quotes word for word, every line sourced, no verdicts from us.", "<h1>House rules</h1>"],
   ["/privacy", "Privacy | Legit or Full of Shit", "What this site collects and what it doesn't.", "<h1>Privacy</h1>"],
   ["/terms", "Terms of service | Legit or Full of Shit", "Terms for using Legit or Full of Shit.", "<h1>Terms of service</h1>"],
@@ -157,7 +157,7 @@ for (const meta of OPEN_STATES) {
     page(base, {
       title: `${st.name}: what politicians said vs. what they did | Legit or Full of Shit`,
       description: clip(`${stFiled.length} ${st.name} candidates and officials from the 2026 election, with quotes and votes on ${issueWords}, each with its source.`),
-      body: `<h1>${esc(st.name)}: said vs. did</h1><p>${esc(st.name)}, general election ${esc(st.electionDate)}. ${esc(LEDE)}</p>${nav}<p>All ${st.people.length} candidates for ${esc(st.scope)}. ${stFiled.length} people have files of quotes and records so far.</p>${source}<h2>What we're tracking</h2><ul>${st.issues
+      body: `<h1>${esc(st.name)}: said vs. did</h1><p>${esc(st.name)}, after the general election of ${esc(st.electionDate)}. ${esc(LEDE)}</p>${nav}<p>All ${st.people.length} people on the ballot for ${esc(st.scope)}. ${stFiled.length} people have files of quotes and records so far.</p>${source}<h2>What we're tracking</h2><ul>${st.issues
         .map((i) => `<li>${link(`${base}/${i.id}`, i.name)}: ${esc(i.blurb)}</li>`)
         .join("")}</ul><h2>People on file</h2><ul>${stFiled
         .map((p) => {
@@ -210,7 +210,7 @@ for (const meta of OPEN_STATES) {
     paths.push(
       page(`${base}/match`, {
         title: `Who votes like you? Match your views to ${st.name} votes | Legit or Full of Shit`,
-        description: `Answer ${st.questions.length} yes/no questions, each tied to a real ${st.name} vote, and see how the people on your ballot actually voted. No endorsements.`,
+        description: `Answer ${st.questions.length} yes/no questions, each tied to a real ${st.name} vote, and see how the people on your 2026 ballot actually voted. No endorsements.`,
         body: `<h1>Who votes like you?</h1><p>${st.questions.length} yes/no questions, each tied to one real recorded vote in ${esc(st.name)}.</p><ul>${st.questions
           .map((q) => `<li>${esc(q.ask)} ${esc(q.note)}</li>`)
           .join("")}</ul>${nav}`,

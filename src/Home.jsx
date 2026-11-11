@@ -77,8 +77,9 @@ export default function Home({ go }) {
           <ZipBox where="hero" go={go} openState={openState} />
           <QuizStart go={go} />
           <p className="home-who" id="who">
-            What they said, next to what they did: legislators, members of Congress, statewide officials and the challengers
-            running against them. Word for word, with the source. No scores from us. You make the call.
+            The 2026 election is over. The record stays: what legislators, members of Congress and statewide officials said,
+            next to what they did, and whether they now vote the way they talked. Word for word, with the source. No scores
+            from us. You make the call.
           </p>
         </div>
       </header>
@@ -88,7 +89,7 @@ export default function Home({ go }) {
       <section className="home-how">
         <h2>How it works</h2>
         <ol>
-          <li><strong>Find your ballot.</strong> Pick your state, type your address, and see who is running where you vote.</li>
+          <li><strong>Find your officials.</strong> Type your ZIP or pick your state, and see everyone who was on your 2026 ballot.</li>
           <li><strong>Read both columns.</strong> Their words on one side, their votes and records on the other, each linked to its source.</li>
           <li><strong>Make the call.</strong> Legit, or full of shit. Then see how everyone else called it, and tell the official yourself.</li>
         </ol>
@@ -187,6 +188,7 @@ export default function Home({ go }) {
           {[["rules", "House rules"], ["terms", "Terms of service"], ["privacy", "Privacy"], ["corrections", "Send a correction"]].map(([id, label]) => (
             <button key={id} className="linkish" onClick={() => go({ page: "state", state: "utah", view: id })}>{label}</button>
           ))}
+          <a className="linkish" id="foot-source" href="https://github.com/susanwelland/legit-or-full-of-shit-public" target="_blank" rel="noreferrer">Source code</a>
         </nav>
       </footer>
     </div>

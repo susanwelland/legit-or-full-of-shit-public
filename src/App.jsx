@@ -219,7 +219,7 @@ function LoadState({ meta, route, go }) {
     <div className="page">
       <p className="eyebrow">
         <button className="linkish" onClick={() => go({ page: "home" })}>All states</button>
-        {" / "}{meta.name}, general election November 3, 2026
+        {" / "}{meta.name}, after the November 3, 2026 election
       </p>
       <p className="empty" role="status">
         {failed ? (
@@ -240,7 +240,7 @@ export function GapNotice({ gap }) {
   return (
     <p className="gap-notice" role="status" id={`gap-${gap.type}-${gap.value}`}>
       <strong>{gap.label}: we don't have the official candidate list yet.</strong> {gap.note} Nobody in this race is shown or
-      compared until the official list is in. Every other race on your ballot is below.
+      compared until the official list is in. Every other race is below.
     </p>
   );
 }
@@ -542,7 +542,7 @@ function StatePage({ route, go, data }) {
         </div>
         <p className="eyebrow">
           <button className="linkish" id="all-states" onClick={() => go({ page: "home" })}>All states</button>
-          {" / "}{data.name}, general election November 3, 2026
+          {" / "}{data.name}, after the November 3, 2026 election
         </p>
         <h1>
           <a className="home-link" href="/" onClick={(e) => { e.preventDefault(); go({ page: "home" }); }}>
@@ -552,13 +552,13 @@ function StatePage({ route, go, data }) {
         </h1>
         {data.utah ? (
           <p className="lede coverage">
-            All {ballot.length} candidates for Congress, the Legislature and the State School Board, plus {local.length} local
-            candidates from {LOCAL_COVERAGE.counties} of {LOCAL_COVERAGE.of} counties. {people.length} people have files of quotes
+            All {ballot.length} people on the November 3, 2026 ballot for Congress, the Legislature and the State School Board, plus{" "}
+            {local.length} local candidates from {LOCAL_COVERAGE.counties} of {LOCAL_COVERAGE.of} counties. {people.length} people have files of quotes
             and records so far.
           </p>
         ) : (
           <p className="lede coverage">
-            All {everyone.length} candidates for {data.scope}, from the{" "}
+            All {everyone.length} people on the November 3, 2026 ballot for {data.scope}, from the{" "}
             <a href={data.ballotSource.url} target="_blank" rel="noreferrer">{data.ballotSource.label}</a>.{" "}
             {people.filter((p) => issues.some((i) => data.filed(p, i.id))).length} people have files of quotes and records so far.
           </p>
@@ -1052,6 +1052,7 @@ function StatePage({ route, go, data }) {
               {label}
             </button>
           ))}
+          <a className="linkish" id="foot-source" href="https://github.com/susanwelland/legit-or-full-of-shit-public" target="_blank" rel="noreferrer">Source code</a>
         </nav>
       </footer>
     </div>
