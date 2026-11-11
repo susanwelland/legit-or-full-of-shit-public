@@ -1,0 +1,17 @@
+{
+  "name": "legitorfullofshit-tallies",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "sync": "node sync-data.mjs",
+    "start": "node sync-data.mjs && node index.js",
+    "dev": "node dev.mjs"
+  },
+  "dependencies": {
+    "@electric-sql/pglite": "^0.5.8",
+    "@resvg/resvg-js": "^2.6.2",
+    "express": "^4.21.2",
+    "pg": "^8.13.1"
+  }
+}

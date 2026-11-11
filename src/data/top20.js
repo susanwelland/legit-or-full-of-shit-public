@@ -1,0 +1,133 @@
+// Utah Top 20. Every line states only what its source supports. basis: "poll" means the item's
+// place comes from one poll's ranking; "editor" means we placed it using polls and news coverage.
+const CORE = "Morning Consult for Deseret News and the Hinckley Institute of Politics, Aug 6 to 11, 2026. 789 registered Utah voters, margin of error plus or minus 3 points. Voters could name more than one issue.";
+const CORE_SRC = { label: "Deseret News, Aug 24, 2026", url: "https://www.deseret.com/politics/2026/08/24/utah-shifts-slightly-toward-democrats-in-midterms/" };
+
+export const asOf = "October 5, 2026";
+
+export const top20 = [
+  { title: "Economy and jobs", stat: "48%", basis: "poll",
+    line: "48% of registered voters named the economy and jobs among the issues with the biggest impact on their vote.",
+    poll: CORE, sources: [CORE_SRC] },
+  { title: "Inflation", stat: "41%", basis: "poll",
+    line: "41% named inflation in August. In a September poll by the same pollster, 53% of Utah voters called inflation \"extremely important\" and 51% said the same of the economy and job creation.",
+    poll: CORE + " September poll: Morning Consult for the same sponsors; field dates and sample not given in the article.",
+    note: "The August poll option was \"inflation.\" News coverage describes it as cost of living.",
+    sources: [CORE_SRC, { label: "Deseret News, Sept 29, 2026", url: "https://www.deseret.com/politics/2026/09/29/voters-in-utah-and-nationally-say-economy-and-inflation-are-top-issues-in-november-midterm-elections/" }] },
+  { title: "Housing affordability", stat: "93%", basis: "editor",
+    line: "93% of registered voters called housing affordability a concern in one poll. In a separate January poll, 32% named housing their top priority for the Legislature, more than double the next issue.",
+    poll: "93%: Overton Insights for the Libertas Institute, 1,000 registered voters, dates and margin of error not published. 32%: Morning Consult for Deseret News and the Hinckley Institute, Jan 7 to 12, 2026, 799 registered voters, plus or minus 3.",
+    note: "The 93% figure was reported in an opinion column by the advocacy group that commissioned the poll. Housing was not an option in the August vote-driver poll.",
+    sources: [
+      { label: "Daily Herald guest opinion, Feb 11, 2026", url: "https://www.heraldextra.com/news/opinion/local-guest-opinions/2026/feb/11/guest-opinion-utahs-housing-crisis-is-real-and-voters-want-reform/" },
+      { label: "Deseret News, Jan 19, 2026", url: "https://www.deseret.com/politics/2026/01/19/new-poll-finds-housing-affordability-is-the-priority-issue-for-utah-voters-ahead-of-2026-legislative-session/" },
+    ] },
+  { title: "Corruption", stat: "27%", basis: "poll",
+    line: "27% named corruption, third in the August poll.",
+    poll: CORE, sources: [CORE_SRC] },
+  { title: "Great Salt Lake", stat: "86%", basis: "editor", issue: "lake",
+    line: "86% of registered voters said they were very or somewhat concerned about Great Salt Lake water levels, up from 81% in March. In mid-August the lake stood at 4,190.40 feet, two tenths of a foot above its 2021 low.",
+    poll: "Morning Consult for Deseret News and the Hinckley Institute, May 2026, 802 registered voters. Margin of error not in the report.",
+    note: "The record low is 4,188.5 feet, set in November 2022.",
+    sources: [
+      { label: "Deseret News, May 27, 2026", url: "https://www.deseret.com/politics/2026/05/27/poll-utahns-concerned-about-water-great-salt-lake/" },
+      { label: "Utah News Dispatch, Aug 16, 2026", url: "https://utahnewsdispatch.com/2026/08/16/great-salt-lake-not-expected-to-hit-new-low-in-2026-but-what-if-it-does-in-the-future/" },
+    ] },
+  { title: "The Stratos data center in Box Elder County", stat: "60%", basis: "editor", issue: "datacenters",
+    line: "Statewide opposition to the Stratos project rose from 53% in May to 60% in June, with 26% in support. Senate President Stuart Adams lost his June Republican primary.",
+    poll: "Morning Consult for Deseret News and the Hinckley Institute, June 16 to 22, 2026, 850 voters. Margin of error not stated.",
+    note: "KSL and Deseret News reporting ties Adams's loss to the data center. Utah News Dispatch also cites constituent frustration and outside attack ads, which Adams called \"false attacks.\" He lost his own district's primary; he was not removed as Senate President.",
+    sources: [
+      { label: "Deseret News, June 24, 2026", url: "https://www.deseret.com/politics/2026/06/24/new-poll-on-utah-data-center-opposition-after-state-senate-president-stuart-adams-is-ousted/" },
+      { label: "KSL, June 28, 2026", url: "https://www.ksl.com/article/51566305/data-center-fallout-upends-utah-politics-ousting-senate-president" },
+    ] },
+  { title: "Immigration", stat: "23%", basis: "poll",
+    line: "23% named immigration, tied for fourth. In the same poll, 64% supported Sen. John Curtis's proposal for state-run migrant worker visas. The federal government bought a Salt Lake City warehouse in March for an immigration detention center and dropped the plan in August. Gov. Cox said in March: \"I think we need a facility. If this is the right facility, I'm not sure.\"",
+    poll: CORE,
+    sources: [
+      CORE_SRC,
+      { label: "Deseret News, Aug 19, 2026", url: "https://www.deseret.com/politics/2026/08/19/poll-finds-utah-republican-voters-support-state-migrant-visa-program-in-bill-introduced-by-senator-john-curtis/" },
+      { label: "Deseret News, March 19, 2026", url: "https://www.deseret.com/politics/2026/03/19/utah-governor-supports-new-ice-detention-center-in-salt-lake-city-amid-local-protests/" },
+      { label: "Axios, Aug 20, 2026", url: "https://www.axios.com/local/salt-lake-city/2026/08/20/dhs-immigration-detention-center-warehouse-conversion-salt-lake-utah" },
+    ] },
+  { title: "Family values, morality and faith", stat: "23%", basis: "poll",
+    line: "23% named family values, morality and faith, tied with immigration.",
+    poll: CORE, sources: [CORE_SRC] },
+  { title: "The court-ordered congressional map", stat: "4 districts", basis: "editor",
+    line: "The court-ordered map is in place for 2026 after a federal court declined to block it on Feb 23. The initiative to repeal the anti-gerrymandering law behind it was declared insufficient on April 30.",
+    note: "Deseret News reports Kamala Harris would have carried the new 1st District by 23 points in 2024. Republican leaders said they will keep pursuing repeal.",
+    sources: [
+      { label: "Deseret News, Feb 23, 2026", url: "https://www.deseret.com/politics/2026/02/23/utah-federal-court-denies-gop-request-on-state-maps/" },
+      { label: "Utah News Dispatch, April 30, 2026", url: "https://utahnewsdispatch.com/2026/04/30/effort-to-repeal-prop-4-utah-anti-gerrymandering-law-officially-fails/" },
+    ] },
+  { title: "The new three-judge court panel", stat: "3 cases", basis: "editor",
+    line: "On Oct 5 the Utah Supreme Court heard nearly six hours of arguments in three cases challenging the law that created a three-judge panel for constitutional challenges. It has not ruled.",
+    sources: [
+      { label: "Salt Lake Tribune, Oct 5, 2026", url: "https://www.sltrib.com/news/politics/2026/10/05/utah-supreme-court-hears-legal/" },
+      { label: "Utah News Dispatch, Oct 5, 2026", url: "https://utahnewsdispatch.com/2026/10/05/is-utahs-new-3-judge-panel-unconstitutional-utah-supreme-court-hears-arguments/" },
+    ] },
+  { title: "Abortion", stat: "18 weeks", basis: "editor",
+    line: "Utah's near-total abortion ban remains blocked by a court order, and abortion is legal up to 18 weeks. Planned Parenthood's case is one of the three affected by the panel law argued on Oct 5. The ban itself was not argued that day.",
+    sources: [
+      { label: "Utah News Dispatch, Oct 5, 2026", url: "https://utahnewsdispatch.com/2026/10/05/is-utahs-new-3-judge-panel-unconstitutional-utah-supreme-court-hears-arguments/" },
+      { label: "Deseret News, Oct 5, 2026", url: "https://www.deseret.com/utah/2026/10/05/utah-supreme-court-hears-oral-arguments-on-three-judge-panel/" },
+    ] },
+  { title: "Public lands and the national monuments", stat: "66%", basis: "editor",
+    line: "66% of registered voters polled said greater protections should be restored to all of the land previously inside Bears Ears and Grand Staircase-Escalante. The monuments were reduced on July 13, 2026.",
+    poll: "New Bridge Strategy for the Grand Canyon Trust, Aug 10 to 17, 2026. 500 registered voters, plus or minus 4.38 points.",
+    note: "The poll was commissioned by a group that opposes the reductions.",
+    sources: [
+      { label: "Grand Canyon Trust, Sept 9, 2026", url: "https://www.grandcanyontrust.org/news/new-poll-utah-voters-want-monuments-restored/" },
+    ] },
+  { title: "Utah Fits All school vouchers", stat: "On appeal", basis: "editor",
+    line: "A district judge ruled the program unconstitutional on April 18, 2025. It keeps running while the Utah Supreme Court considers the appeal. A State Auditor review of its first year found most money went to legitimate education costs and flagged some purchases.",
+    sources: [
+      { label: "Utah News Dispatch, April 23, 2025", url: "https://utahnewsdispatch.com/2025/04/23/utah-fits-all-voucher-program-will-continue-until-utah-supreme-court-rules/" },
+      { label: "KUTV, July 23, 2026", url: "https://kutv.com/news/local/utah-audit-reveals-how-some-families-spent-taxpayer-funded-scholarship-money" },
+    ] },
+  { title: "Property taxes", stat: "$93.58M", basis: "editor",
+    line: "67 local taxing entities proposed a combined $93.58 million in property tax increases for 2026 to 2027.",
+    note: "The count is from the Utah Taxpayers Association in early August and covers proposals, not final adopted amounts.",
+    sources: [{ label: "KSL, Aug 4, 2026", url: "https://www.ksl.com/article/51606015/67-utah-taxing-entities-seeking-9358m-in-tax-hikes-between-them-taxpayers-group-says" }] },
+  { title: "State taxes", stat: "4.45%", basis: "editor",
+    line: "The 2026 Legislature cut the income tax rate from 4.5% to 4.45%, the sixth cut in six years. It also passed a temporary gas tax cut for July through December, raised tobacco and nicotine taxes, and added a 2% tax on adult-content sales.",
+    sources: [
+      { label: "KUER, March 5, 2026", url: "https://www.kuer.org/politics-government/2026-03-05/after-a-speed-bump-utah-lawmakers-push-through-a-summer-gas-tax-holiday" },
+      { label: "KUER session roundup, March 6, 2026", url: "https://www.kuer.org/politics-government/2026-03-06/passes-fails-heres-what-happened-in-utahs-2026-legislative-session" },
+    ] },
+  { title: "School funding and teacher pay", stat: "5.9%", basis: "editor",
+    line: "Lawmakers reported a 5.9% increase in public education funding. The Utah Education Association said that \"choosing tax cuts over direct investment in public education sends the wrong message about Utah's priorities.\"",
+    note: "The 5.9% figure is a legislator's statement.",
+    sources: [
+      { label: "Deseret News via Yahoo, March 2026", url: "https://www.yahoo.com/news/articles/lawmakers-approve-approximate-6-funding-232535786.html" },
+      { label: "Utah Education Association", url: "https://myuea.org/resource-library/tax-cuts-limit-education-investment-2026-session" },
+    ] },
+  { title: "Kids online", stat: "8 bills", basis: "editor",
+    line: "Utah's 2025 App Store Accountability Act requires app stores to verify users' age categories and link minors to a parent account. The Utah House counts eight related bills passed since 2023.",
+    note: "The count of eight is the House majority's own tally.",
+    sources: [{ label: "Utah House of Representatives, May 28, 2026", url: "https://house.utleg.gov/2026-utah-leads-the-nation-on-social-media-and-child-safety/" }] },
+  { title: "Approval of Trump and Cox", stat: "45% / 41%", basis: "editor",
+    line: "In August, 45% of Utah voters approved of President Trump and 52% disapproved. Gov. Cox stood at 41% approve and 49% disapprove, down from 51% and 37% in January. A September poll found 54% approved of Lt. Gov. Henderson's resistance to Justice Department demands for voter data.",
+    poll: CORE + " Henderson figure: Noble Predictive Insights, Sept 8 to 12, 2026, 602 registered voters, plus or minus 3.99.",
+    note: "The Henderson number measures one decision, not her overall job approval.",
+    sources: [
+      { label: "Deseret News, Aug 15, 2026", url: "https://www.deseret.com/politics/2026/08/15/president-trump-approval-continues-to-drop-with-utahns-his-republican-heirs-are-viewed-more-favorably/" },
+      { label: "Deseret News, Aug 17, 2026", url: "https://www.deseret.com/politics/2026/08/17/utah-voters-disapprove-of-governor-cox-senator-lee-and-senator-curtis-in-new-poll/" },
+      { label: "Utah Political Watch, Sept 22, 2026", url: "https://utahpolitics.news/utah-poll-trump-approval-cox-henderson/" },
+    ] },
+  { title: "The Iran war", stat: "14%", basis: "poll",
+    line: "14% said a candidate's stance on the Iran war, for or against, would have the biggest impact on their vote.",
+    poll: CORE, sources: [CORE_SRC] },
+  { title: "Transgender law", stat: "3 passed", basis: "editor",
+    line: "In 2026 lawmakers expanded the ban on hormone treatment for minors, required insurers that cover transition care to cover detransition, and allowed sex-based restrictions in off-campus student housing. A bill replacing \"gender\" with \"biological sex\" in state law did not advance.",
+    sources: [
+      { label: "FOX 13", url: "https://www.fox13now.com/news/politics/2026-utah-legislature-on-lgbtq-issues" },
+      { label: "Daily Utah Chronicle, March 2, 2026", url: "https://dailyutahchronicle.com/2026/03/02/what-the-2026-legislative-session-means-for-transgender-utahns/" },
+    ] },
+];
+
+export const backdrop = {
+  line: "In the August poll, 14% were unsure how they would vote in the midterms, compared with 8% unsure when describing how they voted in past elections. 39% said they would back all or nearly all Republicans (43% for past elections) and 31% all or nearly all Democrats (28%).",
+  note: "This compares past voting with current intent inside one poll. It is not a trend between two polls.",
+  source: CORE_SRC,
+};

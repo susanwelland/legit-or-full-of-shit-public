@@ -1,0 +1,86 @@
+# Render Blueprint. In Render: New > Blueprint > pick this repository. It creates all three pieces.
+# Everything starts on free plans so nothing is charged without a decision:
+#   - the free service sleeps after 15 idle minutes (first visit after that takes about a minute)
+#   - the free database is deleted 30 days after it is created unless it is upgraded
+# Upgrade both in the Render dashboard before real traffic. See docs/GO_LIVE.md.
+services:
+  - type: web
+    name: legitorfullofshit
+    runtime: static
+    buildCommand: npm ci --include=dev && npm run build
+    staticPublishPath: dist
+    domains:
+      - legitorfullofshit.com
+      - www.legitorfullofshit.com
+    envVars:
+      - key: VITE_API_URL
+        value: https://api.legitorfullofshit.com
+      # PostHog: the public project key is in src/analytics.js and runs only on legitorfullofshit.com.
+      # Set VITE_POSTHOG_KEY here only to point the site at a different PostHog project.
+      # Set VITE_SHOP=on here to let visitors order the Wear your call shirt (hidden by default). Feed the Eagle stays on either way.
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
+
+  - type: web
+    name: legitorfullofshit-api
+    runtime: node
+    plan: free
+    buildCommand: cd server && npm ci && npm run sync
+    startCommand: cd server && node index.js
+    healthCheckPath: /api/health
+    domains:
+      - api.legitorfullofshit.com
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: legitorfullofshit-db
+          property: connectionString
+      - key: ALLOWED_ORIGIN
+        value: https://legitorfullofshit.com,https://www.legitorfullofshit.com
+      - key: IP_SALT
+        generateValue: true
+      - key: ADMIN_TOKEN
+        generateValue: true
+      - key: PAYPAL_ENV          # "sandbox" only for the shop. Live shop payments are refused by the code.
+        value: sandbox
+      # Feed the Eagle tips only: real money once all three are set in the Render dashboard (never here).
+      - key: FEED_PAYPAL_ENV     # "live" to take real tips; leave empty to keep tips on sandbox
+        sync: false
+      - key: PAYPAL_LIVE_CLIENT_ID      # from a LIVE app at developer.paypal.com (Business account)
+        sync: false
+      - key: PAYPAL_LIVE_CLIENT_SECRET
+        sync: false
+      - key: REPORT_PRICE_USD
+        value: "1.00"
+      - key: PAYPAL_CLIENT_ID    # paste in the Render dashboard, never here
+        sync: false
+      - key: PAYPAL_CLIENT_SECRET
+        sync: false
+      - key: ANTHROPIC_API_KEY   # turns on the Eagle's web search; leave empty to only save questions.
+        # Optional: ANTHROPIC_MODEL (e.g. claude-haiku-4-5, cheapest) and ASK_DAILY_LIMIT (default 150 searches a day)
+        sync: false
+      # eagle@legitorfullofshit.com (server/inbox.js). Leave empty until Resend is set up.
+      - key: INBOX_ADDRESS
+        value: eagle@legitorfullofshit.com
+      - key: RESEND_API_KEY      # Resend > API Keys, full access
+        sync: false
+      - key: RESEND_WEBHOOK_SECRET   # Resend > Webhooks > the email.received endpoint's signing secret
+        sync: false
+      - key: INBOX_FORWARD_TO    # the owner's own inbox; every message is copied here
+        sync: false
+      - key: PRINTFUL_API_KEY    # private token for the Printful store; paid shirts become Printful drafts
+        sync: false
+      # Donkey Tracker ($5 per-candidate email alerts, PayPal sandbox only, demo only). Off unless TRACKER=on.
+      # The button shows only in a browser opened once with ?tracker=1. Needs RESEND_API_KEY for email.
+      - key: TRACKER             # "on" to switch it on; leave empty to keep it off
+        sync: false
+      - key: TRACKER_SECRET      # signs the confirm and unsubscribe links
+        generateValue: true
+      - key: DONATE_URL          # optional PayPal link for "Feed the Eagle" in the Eagle's reply; leave empty to hide it
+        sync: false
+
+databases:
+  - name: legitorfullofshit-db
+    plan: free

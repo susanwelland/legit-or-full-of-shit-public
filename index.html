@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Legit or Full of Shit</title>
+    <meta property="og:title" content="Legit or Full of Shit" />
+    <meta property="og:description" content="What candidates and officials said, next to what they did. Word for word, with the source. You make the call." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://legitorfullofshit.com/" />
+    <meta property="og:image" content="https://legitorfullofshit.com/social-card.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Legit or Full of Shit: what they said, what they did, you make the call." />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="description" content="What candidates and officials said, next to what they did. Direct quotes and public records only, each with its source. You make the call." />
+    <!-- Paint the site's own background at once, and keep the plain-text snapshot (for search
+         engines and link previews) out of sight while the app loads. If the app hasn't started
+         after 4 seconds, the snapshot shows, so the page is never blank. -->
+    <script>
+      document.documentElement.classList.add("js");
+      try {
+        var a = JSON.parse(localStorage.getItem("lofs-a11y") || "{}");
+        if (a.text) document.documentElement.classList.add("a11y-text");
+        if (a.contrast) document.documentElement.classList.add("a11y-contrast");
+        if (a.motion) document.documentElement.classList.add("a11y-still");
+      } catch (e) {}
+      setTimeout(function () { if (!window.__lofsMounted) document.documentElement.classList.remove("js"); }, 4000);
+    </script>
+    <style>
+      html, body { margin: 0; background: #f3f5f4; color: #14201f; }
+      @media (prefers-color-scheme: dark) { html, body { background: #101716; color: #e9efec; } }
+      .js .seo-snapshot { display: none; }
+    </style>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&family=IBM+Plex+Mono:wght@400;600&family=Public+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" />
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>

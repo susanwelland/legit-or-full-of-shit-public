@@ -1,0 +1,16 @@
+Legit or Full of Shit
+Copyright 2026 the Legit or Full of Shit contributors
+
+This product's source code is licensed under the Apache License, Version 2.0 (see LICENSE).
+
+Not covered by that license:
+- The name "Legit or Full of Shit", the Eagle character and the logos in public/ and
+  docs/brand/. These are the project's brand. Section 6 of the License grants no rights in them.
+- Quotes from public figures and news outlets. They belong to their speakers and publishers and
+  appear here as attributed excerpts with links to the source.
+- Government records (vote tallies, roll calls, policies and documents released under Utah's
+  GRAMA). These are public records from the agencies named in each entry.
+
+Third-party software:
+- AG Grid Community, MIT License, Copyright (c) AG GRID LTD.
+- React, Vite and the other packages listed in package.json, under their own licenses.

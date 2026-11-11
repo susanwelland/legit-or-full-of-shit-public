@@ -1,0 +1,8 @@
+node_modules
+dist
+preview
+server/data
+.env
+server/.localdb
+server/node_modules
+private
