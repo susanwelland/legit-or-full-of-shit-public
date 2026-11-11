@@ -11,7 +11,7 @@
 import { alertOwner } from "./alerts.js";
 import { printfulSettings, sendShirt, shirtSizes } from "./printful.js";
 import { randomUUID } from "node:crypto";
-import { shirt, currency } from "./data/shop.js";
+import { shirt, currency, merch, MERCH_DEMO_CENTS } from "./data/shop.js";
 import { shirtPerson, CALLS } from "./shirt.js";
 import { TRACKER_CENTS } from "./tracker.js";
 
@@ -138,6 +138,16 @@ export async function mountShop({ app, pool, voterOf, ipHash, tooFast, tracker =
       const value = made.rows[0] && made.rows[0].value;
       if (!CALLS[value]) return null;
       return { kind: "shirt", sku: `call-${value}`, size, cents: shirt.priceCents, label: `T-shirt: ${person.name}, I voted ${CALLS[value]} (${size})`, ship: true, person: person.id, call: value };
+    }
+    if (body.merch !== undefined) {
+      // Sandbox demo merch: a fixed $1 test price from the catalog, sandbox or mock only, never shipped.
+      const sku = String(body.merch);
+      const m = Object.prototype.hasOwnProperty.call(merch, sku) ? merch[sku] : null;
+      if (!m) return null;
+      const size = m.sizes ? (m.sizes.includes(body.size) ? body.size : null) : null;
+      if (m.sizes && !size) return null;
+      if (mode !== "sandbox" && mode !== "mock") return { refuse: "Demo merch is only sold in the sandbox." };
+      return { kind: "merch", sku: `merch-${sku}`, size, cents: MERCH_DEMO_CENTS, label: `${m.name}${size ? ` (${size})` : ""}, sandbox demo`, ship: false };
     }
     return null;
   }
