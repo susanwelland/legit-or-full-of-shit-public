@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from "react";
-import { currency } from "./data/shop.js";
+import { currency, merch } from "./data/shop.js";
 import { voterId } from "./tallies.js";
 import { track } from "./analytics.js";
-import { ProductArt, Certificate, Roundel } from "./ShopArt.jsx";
+import { Certificate, Roundel } from "./ShopArt.jsx";
 
 const API = (import.meta.env.VITE_API_URL || "").replace(/\/$/, "");
 const feedHref = import.meta.env.VITE_SINGLE === "1" ? "#/feed" : "/feed";
@@ -29,7 +29,7 @@ const usesPayPal = (mode) => mode === "sandbox" || mode === "live";
 const post = (path, body) =>
   fetch(API + path, { method: "POST", headers: { "Content-Type": "application/json", "X-Voter": voterId() }, body: JSON.stringify(body || {}) });
 
-const kindOf = (item) => (item.tracker ? "tracker" : item.report ? "evidence_file" : item.feed ? "feed" : item.shirt ? "shirt" : item.certificate ? "certificate" : "product");
+const kindOf = (item) => (item.tracker ? "tracker" : item.report ? "evidence_file" : item.feed ? "feed" : item.shirt ? "shirt" : item.certificate ? "certificate" : item.merch ? "merch" : "product");
 
 // Proof of payment, as our server confirmed it with PayPal: the ids PayPal gave the order and the
 // capture, the amount, and whether it was sandbox. Shown after every completed checkout.
@@ -91,7 +91,7 @@ export function Checkout({ item, shop, onDone, paidText }) {
       })
       .catch(() => { setState("error"); setNote("PayPal did not load. Check your connection and try again."); });
     return () => { dead = true; if (buttons && buttons.close) buttons.close(); };
-  }, [shop.mode, shop.clientId, item.sku, item.size, item.report, item.feed, item.shirt && item.shirt.key]);
+  }, [shop.mode, shop.clientId, item.sku, item.size, item.merch, item.report, item.feed, item.shirt && item.shirt.key]);
 
   if (state === "paid") {
     if (paidText === "") return null;
@@ -103,7 +103,7 @@ export function Checkout({ item, shop, onDone, paidText }) {
       {shop.mode === "mock" && (
         <button
           className="panel-go"
-          id={`mock-pay-${item.sku || (item.feed ? "feed" : item.shirt ? "shirt" : item.certificate ? "certificate" : "report")}`}
+          id={`mock-pay-${item.sku || item.merch || (item.feed ? "feed" : item.shirt ? "shirt" : item.certificate ? "certificate" : "report")}`}
           disabled={state === "working" || state === "checking"}
           onClick={async () => {
             setState("working");
@@ -121,17 +121,20 @@ export function Checkout({ item, shop, onDone, paidText }) {
   );
 }
 
-// The Eagle's General Store. One thing is buyable in this demo: the $1 "I Made the Call"
-// certificate, through PayPal sandbox. Merch is shown as "coming soon" until Printful is verified.
-// Product names and prices are placeholders.
+// The Eagle's General Store. The $1 "I Made the Call" certificate and every merch item below are
+// bought through PayPal sandbox: test money only, nothing prints and nothing ships. The only shirt
+// that is ever made to order is the personalized "Wear your call" shirt on a person page.
 const MERCH = [
-  { id: "call-tee", name: "Wear Your Call Tee", meta: "Printed per call · Black · S–2XL", desc: "The back carries the name you checked, \"I voted\", and your call. You can preview it under any call you make." },
-  { id: "record-tee", name: "The Record Tee", meta: "Cream · S–2XL", desc: "What they said over what they did. Small wordmark over the heart." },
-  { id: "roundel-tee", name: "The Roundel Tee", meta: "Forest · S–2XL", desc: "The eagle seal on the back, a small one over the heart." },
-  { id: "roundel-cap", name: "The Roundel Cap", meta: "Dad cap · Forest · Adjustable", desc: "A small gold seal, nothing else. The quiet one for county meetings." },
-  { id: "sticker-pack", name: "Field Sticker Pack", meta: "3 vinyl stickers", desc: "I checked the record, said ↔ did, and the round mark." },
-  { id: "source-mug", name: "The Source Mug", meta: "11 oz ceramic · White", desc: "The site's whole promise in one line. Coffee for reading roll calls." },
-  { id: "roundel-sticker", name: "Roundel Sticker", meta: "Die-cut vinyl · 3 inch", desc: "The seal on its own. Planned to ship free inside every other order." },
+  { id: "call-tee", name: "Wear Your Call Tee", meta: "Printed per call · Black · S–2XL", desc: "The back carries the name you checked, \"I voted\", and your call. The photo shows an example print with a made-up name.", example: true },
+  { id: "record-tee", name: "The Record Tee", meta: "Cream · S–2XL", desc: "What they said over what they did. You make the call." },
+  { id: "roundel-tee", name: "The Roundel Tee", meta: "Forest · S–2XL", desc: "The eagle seal on the back." },
+  { id: "roundel-cap", name: "The Roundel Cap", meta: "Dad cap · Forest", desc: "A small gold seal, nothing else. The quiet one for county meetings." },
+  { id: "trucker-hat", name: "The Wings Trucker Hat", meta: "Trucker · Black bill, white front", desc: "Just the wings.", alt: "trucker-hat-front" },
+  { id: "sticker-pack", name: "Field Sticker Pack", meta: "Vinyl stickers", desc: "I checked the record, said ↔ did, and the round mark." },
+  { id: "roundel-sticker", name: "Roundel Sticker", meta: "Die-cut vinyl · 3 inch", desc: "The seal on its own." },
+  { id: "source-mug", name: "The Source Mug", meta: "Mug · White", desc: "The site's whole promise in one line. Coffee for reading roll calls." },
+  { id: "insulated-flask", name: "The Insulated Flask", meta: "Bottle · Forest", desc: "The seal and the address, for long committee hearings." },
+  { id: "hip-flask", name: "The Hip Flask", meta: "Pocket flask · Steel", desc: "For election night." },
 ];
 
 const today = () => new Date().toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
@@ -230,11 +233,60 @@ function CertificateCard({ calls, goRecords, shop }) {
   );
 }
 
+function MerchCard({ m, shop, goRecords }) {
+  const def = merch[m.id];
+  const [size, setSize] = useState(def && def.sizes ? def.sizes[2] : null);
+  const [open, setOpen] = useState(false);
+  const [receipt, setReceipt] = useState(null);
+  const [alt, setAlt] = useState(false);
+  const img = alt && m.alt ? m.alt : m.id;
+  return (
+    <li className="store-card">
+      <div className={`store-visual v-${m.id}`} style={{ position: "relative", overflow: "hidden" }}>
+        <img src={`/img/merch/${img}.jpg`} alt={`${m.name}${m.example ? " (example print, made-up name)" : ""}`} loading="lazy" width="536" height="536" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
+        {m.example && <p className="call-note" style={{ position: "absolute", left: 0, right: 0, bottom: 0, margin: 0, padding: "4px 8px", background: "rgba(0,0,0,0.65)", color: "#fff", fontSize: "0.75rem", textAlign: "center" }}>Example print, made-up name.</p>}
+      </div>
+      <div className="store-card-body">
+        <h4>{m.name}</h4>
+        <p className="store-meta">{m.meta}</p>
+        <p className="store-desc">{m.desc}</p>
+        {m.alt && <button type="button" className="linkish" onClick={() => setAlt((v) => !v)}>{alt ? "Show the gold-trim view" : "Show the front view"}</button>}
+        {m.example ? (
+          <div className="store-buyrow">
+            <span className="store-price">$24 sandbox</span>
+            <button type="button" className="panel-go" id="want-call-tee" onClick={() => { track("product_click", { product: m.id, status: "go_make_call" }); goRecords(); }}>Make a call, then order yours</button>
+          </div>
+        ) : receipt ? (
+          <>
+            <p className="paid" role="status">Sandbox payment confirmed by the server. No real money moved and nothing ships from this demo.</p>
+            <Receipt r={receipt} />
+          </>
+        ) : (
+          <div className="store-buyrow">
+            <span className="store-price">$1 sandbox test price</span>
+            {def && def.sizes && (
+              <label className="field" htmlFor={`size-${m.id}`}>Size
+                <select id={`size-${m.id}`} value={size} onChange={(e) => { setSize(e.target.value); setOpen(false); }}>
+                  {def.sizes.map((z) => <option key={z} value={z}>{z}</option>)}
+                </select>
+              </label>
+            )}
+            {!open ? (
+              <button type="button" className="panel-go" id={`buy-${m.id}`} onClick={() => { setOpen(true); track("product_click", { product: m.id, status: "sandbox_buy" }); }}>Buy with PayPal sandbox</button>
+            ) : (
+              <Checkout item={{ merch: m.id, size }} shop={shop} onDone={(r) => setReceipt(r)} paidText="" />
+            )}
+          </div>
+        )}
+      </div>
+    </li>
+  );
+}
+
 const money = (cents) => `$${(cents / 100).toFixed(cents % 100 ? 2 : 0)}`;
 
 export default function Shop({ goRecords, calls = 0 }) {
   const [shop, setShop] = useState({ mode: "off", clientId: null });
-  const [wanted, setWanted] = useState({});
   useEffect(() => {
     track("shop_view");
     if (!API) return;
@@ -261,34 +313,10 @@ export default function Shop({ goRecords, calls = 0 }) {
 
       <CertificateCard calls={calls} goRecords={goRecords} shop={shop} />
 
-      <h3 className="store-section">Coming soon</h3>
-      <p className="call-note">Shirts, caps, stickers and mugs go on sale once the print shop is verified. Prices to come.</p>
+      <h3 className="store-section">Merch, sandbox demo</h3>
+      <p className="call-note">Every item here is a $1 sandbox test purchase with PayPal test money. These are not retail prices. Nothing prints and nothing ships. The one shirt made to order, the personalized "Wear your call" shirt ($24, sandbox), is on a person page after you make a call.</p>
       <ul className="store-grid">
-        {MERCH.map((m) => (
-          <li className="store-card" key={m.id}>
-            <div className={`store-visual v-${m.id}`}><ProductArt id={m.id} /></div>
-            <div className="store-card-body">
-              <h4>{m.name}</h4>
-              <p className="store-meta">{m.meta}</p>
-              <p className="store-desc">{m.desc}</p>
-              <div className="store-buyrow">
-                <span className="store-price">Price to come</span>
-                {wanted[m.id] ? (
-                  <span className="store-soon on" role="status">Noted. Coming soon.</span>
-                ) : (
-                  <button
-                    type="button"
-                    className="store-soon"
-                    id={`want-${m.id}`}
-                    onClick={() => { setWanted((w) => ({ ...w, [m.id]: true })); track("product_click", { product: m.id, status: "coming_soon" }); }}
-                  >
-                    Coming soon · I want this
-                  </button>
-                )}
-              </div>
-            </div>
-          </li>
-        ))}
+        {MERCH.map((m) => <MerchCard key={m.id} m={m} shop={shop} goRecords={goRecords} />)}
       </ul>
       <p className="call-note">
         Or skip the store and <a href={feedHref}>feed the Eagle</a>.
